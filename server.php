@@ -1,10 +1,13 @@
 <?php
 session_start();
-
 // initializing variables
 $username = "";
 $fullname = "";
 $email    = "";
+$tip="";
+$suma="";
+$data="";
+$descriere="";
 $errors = array(); 
 
 // connect to the database
@@ -26,7 +29,7 @@ if (isset($_POST['reg_user'])) {
   if (empty($email)) { array_push($errors, "Email is required"); }
   if (empty($password_1)) { array_push($errors, "Password is required"); }
   if ($password_1 != $password_2) {
-	array_push($errors, "The two passwords do not match");
+      array_push($errors, "The two passwords do not match");
   }
 
   // first check the database to make sure 
@@ -34,7 +37,8 @@ if (isset($_POST['reg_user'])) {
   $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
   $result = mysqli_query($db, $user_check_query);
   $user = mysqli_fetch_assoc($result);
-  
+   
+
   if ($user) { // if user exists
     if ($user['username'] === $username) {
       array_push($errors, "Username already exists");
@@ -56,7 +60,22 @@ if (isset($_POST['reg_user'])) {
   	$_SESSION['success'] = "You are now logged in";
   	header('location: index.php');
   }
+
 }
+
+if (isset($_POST['adauga'])) {
+  $tip = mysqli_real_escape_string($db, $_POST['tip']);
+  $suma = mysqli_real_escape_string($db, $_POST['suma']);
+  $data = mysqli_real_escape_string($db, $_POST['data']);
+  $descriere = mysqli_real_escape_string($db, $_POST['descriere']);
+
+  $query_tranzactii = "INSERT INTO tranzactii (tip, suma, data, descriere) 
+  		  VALUES('$tip','$suma', '$data', '$descriere')";
+  mysqli_query($db, $query_tranzactii);
+	header('location: index.php');
+}
+
+
 if (isset($_POST['login_user'])) {
   $username = mysqli_real_escape_string($db, $_POST['username']);
   $password = mysqli_real_escape_string($db, $_POST['password']);
@@ -67,12 +86,12 @@ if (isset($_POST['login_user'])) {
   if (empty($password)) {
   	array_push($errors, "Password is required");
   }
-
+  
   if (count($errors) == 0) {
   	$password = md5($password);
   	$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
   	$results = mysqli_query($db, $query);
-  	if (mysqli_num_rows($results) == 1) {
+  	if (mysqli_num_rows($results) == 0) {
   	  $_SESSION['username'] = $username;
   	  $_SESSION['success'] = "Logged in succesfully";
   	  header('location: index.php');

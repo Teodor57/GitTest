@@ -15,64 +15,30 @@
 <html>
 <head>
 	<title>Home</title>
-	<link rel="stylesheet" type="text/css" href="style_index.css">
+	<link rel="stylesheet" type="text/css" href="style_index2.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-<!-- <div class="content">
-  	
-  	<?php if (isset($_SESSION['success'])) : ?>
-      <div class="error success" >
-      	<h3>
-          <?php 
-          	echo $_SESSION['success']; 
-          	unset($_SESSION['success']);
-          ?>
-      	</h3>
-      </div>
-  	<?php endif ?>
-
+<body>   
+    <?php 
+		include 'logger.php';
+		if (isset($_SESSION['username'])) : 
+			$log="Logged in succesfully";
+			logger($log);
+		endif	
+	?>
     
-    <?php  if (isset($_SESSION['username'])) : ?>
-    	<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
-    	<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
-    <?php endif ?>
-</div> -->
-
 <div class="banner">
-	<div class="logo">
-		<a href="index.php">
-			iWallet
-		</a>
-	</div>
-	<div class="bannner_imagine">
-		<img src="banner_mic.jpg" class="banner_imagine">
-	</div>
+	<img src="banner_mic.jpg" class="banner" >
 </div>
-<div class="meniu">
-	<div class="add_transaction">
-		<div class="button_add">AddTransaction</div>
-	</div>
-	<div class="depuneri">
-		<div class="buton_simplu">Castiguri</div>
-	</div>
-	<div class="cheltuieli>">
-		<div class="buton_simplu">Cheltuieli</div>
-	</div>
-	<div class="contact">
-		<div class="buton_simplu">Contact</div>
-	</div>
-</div>
-<div class="content">
-	<div class="sold"></div>
-	<div class="tranzactii"></div>
-</div>
-<div class="meniu_profil">
-	<div class="profil">Username</div>
-	<div class="logout">
-		<a href="index.php?logout='1'">logout</a>
-	</div>
-</div>
-		
+
+<ul>
+  <li><a class="active" href="index.php">iWallet</a></li>
+  <li><a href="add_transaction.php">Add Transaction</a></li>
+  <li><a href="depuneri.php">Depuneri</a></li>
+  <li><a href="cheltuieli.php">Cheltuieli</a></li>
+  <li><a href="contact.php">Contact</a></li>
+  <li><a href="index.php?logout='1'">Logout</a></li>
+</ul>
+<img class="picture" src="index_picture.png">
 </body>
 </html>
